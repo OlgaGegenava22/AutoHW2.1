@@ -11,6 +11,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestOrderCard {
     private WebDriver driver;
@@ -155,6 +156,22 @@ public class TestOrderCard {
         String actual = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub")).getText().trim();
         assertEquals("Поле обязательно для заполнения", actual);
     }
+
+    @Test
+    void shouldTestWithoutSubmittedCheckbox(){
+        driver.findElement(By.cssSelector("[data-test-id=\"name\"] .input__control")).sendKeys("Студент Нетологии");
+        driver.findElement(By.cssSelector("[data-test-id=\"phone\"] .input__control")).sendKeys("+79876543210");
+        driver.findElement(By.cssSelector("[type=\"button\"]")).click();
+        assertTrue(driver.findElement(By.cssSelector(".checkbox.input_invalid")).isDisplayed());
+    }
+
+    @Test
+    void shouldTestWithEmptyNameAndPhone(){
+        driver.findElement(By.cssSelector("[data-test-id=\"agreement\"] .checkbox__box")).click();
+        driver.findElement(By.cssSelector("[type=\"button\"]")).click();
+        assertEquals("Поле обязательно для заполнения", driver.findElement(By.cssSelector("[data-test-id=\"name\"] .input__sub")).getText().trim());
+    }
+
 
 
 
